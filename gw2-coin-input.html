@@ -1,0 +1,206 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+<!--
+`gw2-coin-input`
+Generates and input field for Guild Wars 2 coins.
+
+@demo demo/index.html 
+-->
+
+<dom-module id="gw2-coin-input">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      .coin {
+          --iron-icon-height: 15px;
+          --iron-icon-width: 15px;
+      }
+
+      .coins {
+        --iron-icon-height: 24px;
+        --iron-icon-width: 24px;
+      }
+
+      .input-list {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+      }
+
+      .input-list paper-input {
+          flex-basis: 32%;
+      }
+
+      .input-list paper-input.full-width {
+        flex-basis: 100%;
+      }
+    </style>
+
+    <div class="input-list">
+      <template is="dom-if" if="{{ !_isSingleInputCheck(isSingleInput) }}">
+        <paper-input 
+          label="Gold" 
+          always-float-label
+          type="tel"
+          allowed-pattern="^\d*\.?\d+$"
+          maxlength="5"
+          placeholder="0"
+          value="{{ gold }}">
+          
+          <iron-icon 
+            class="coin" 
+            src="images/gold-coin.png" 
+            suffix></iron-icon>
+        </paper-input>
+
+        <paper-input 
+          label="Silver" 
+          always-float-label
+          type="tel"
+          allowed-pattern="^\d*\.?\d+$"
+          maxlength="2"
+          placeholder="0"
+          value="{{ silver }}">
+          
+          <iron-icon 
+            class="coin" 
+            src="images/silver-coin.png" 
+            suffix></iron-icon>
+        </paper-input>
+
+        <paper-input 
+          label="Copper"
+          always-float-label
+          type="tel"
+          allowed-pattern="^\d*\.?\d+$"
+          maxlength="2"
+          placeholder="0"
+          value="{{ copper }}">
+          
+          <iron-icon 
+            class="coin" 
+            src="images/copper-coin.png" 
+            suffix></iron-icon>
+        </paper-input>
+      </template>
+
+      <template is="dom-if" if="{{ _isSingleInputCheck(isSingleInput) }}">
+        <paper-input
+          class="full-width" 
+          label="Coins"
+          always-float-label
+          type="tel"
+          allowed-pattern="^\d*\.?\d+$"
+          maxlength="9"
+          placeholder="0"
+          value="{{ coinsCombined }}">
+
+          <iron-icon 
+            class="coins" 
+            src="images/coins.png" 
+            suffix></iron-icon>
+        </paper-input>
+      </template>
+    </div>
+    
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'gw2-coin-input',
+
+      properties: {
+        gold: {
+          type: Number,
+          notify: true,
+          observer: '_valueChanged'
+        },
+        silver: {
+          type: Number,
+          notify: true,
+          observer: '_valueChanged'
+        },
+        copper: {
+          type: Number,
+          notify: true,
+          observer: '_valueChanged'
+        },
+        coinsCombined: {
+          type: Number,
+          observer: '_coinsCombinedChanged'
+        },
+        coinString: {
+          type: Number,
+          notify: true
+        },
+        isSingleInput: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      _valueChanged: function() {
+        var calculatedCoins = 0;
+
+        if(this.gold != 0)
+          calculatedCoins += +this.gold * 10000;
+
+        if(this.silver != 0)
+          calculatedCoins += +this.silver * 100;
+
+        if(this.copper != 0)
+          calculatedCoins += +this.copper;
+
+        if(calculatedCoins > 100000000) {
+          this.set('gold', 10000);
+          this.set('silver', null);
+          this.set('copper', null);
+
+          return;
+        }
+
+        this.set('coinString', calculatedCoins);
+      },
+
+      _coinsCombinedChanged: function() {
+        var tmpGold = Math.floor(this.coinsCombined / 10000);
+        var tmpSilver = Math.floor(this.coinsCombined / 100 % 100);
+        var tmpCopper = Math.floor(this.coinsCombined % 100);
+
+        this.set('gold', tmpGold);
+        this.set('silver', tmpSilver);
+        this.set('copper', tmpCopper);
+
+        this.set('coinString', this.coinsCombined);
+      },
+
+      _isSingleInputCheck: function(bool) {
+
+        if(this.coinString != null)
+          this.set('coinString', 0);
+
+        if(this.gold != null)
+          this.set('gold', null);
+
+        if(this.silver != null)
+          this.set('silver', 0);
+
+        if(this.copper != null)
+          this.set('copper', 0);
+
+        if(bool) 
+          return true;
+
+        return false; 
+      }
+
+    });
+  </script>
+</dom-module>
