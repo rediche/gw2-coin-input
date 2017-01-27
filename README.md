@@ -7,6 +7,8 @@
 <custom-element-demo>
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../paper-input/paper-input.html">
+    <link rel="import" href="../iron-icon/iron-icon.html">
     <link rel="import" href="gw2-coin-input.html">
     <next-code-block></next-code-block>
   </template>
