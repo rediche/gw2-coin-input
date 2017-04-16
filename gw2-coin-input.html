@@ -112,64 +112,68 @@ Generates and input field for Guild Wars 2 coins.
   </template>
 
   <script>
-    Polymer({
+    class GW2CoinInput extends Polymer.Element {
+      static get is() { return 'gw2-coin-input'; }
 
-      is: 'gw2-coin-input',
-
-      properties: {
-        gold: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
-        },
-        silver: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
-        },
-        copper: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
-        },
-        coinsCombined: {
-          type: Number,
-          observer: '_coinsCombinedChanged'
-        },
-        coinString: {
-          type: Number,
-          notify: true
-        },
-        isSingleInput: {
-          type: Boolean,
-          value: false
+      static get properties() {
+        return {
+          gold: {
+              type: Number,
+              notify: true,
+              observer: '_valueChanged'
+          },
+          silver: {
+              type: Number,
+              notify: true,
+              observer: '_valueChanged'
+          },
+          copper: {
+              type: Number,
+              notify: true,
+              observer: '_valueChanged'
+          },
+          coinsCombined: {
+              type: Number,
+              observer: '_coinsCombinedChanged'
+          },
+          coinString: {
+              type: Number,
+              notify: true
+          },
+          isSingleInput: {
+              type: Boolean,
+              value: false
+          }
         }
-      },
+      }
 
-      _valueChanged: function() {
+      _valueChanged() {
         var calculatedCoins = 0;
 
-        if(this.gold != 0)
+        if (this.gold != 0) {
           calculatedCoins += +this.gold * 10000;
+        }
 
-        if(this.silver != 0)
+        if (this.silver != 0) {
           calculatedCoins += +this.silver * 100;
+        }
 
-        if(this.copper != 0)
+        if (this.copper != 0) {
           calculatedCoins += +this.copper;
+        }
 
-        if(calculatedCoins > 100000000) {
-          this.set('gold', 10000);
-          this.set('silver', null);
-          this.set('copper', null);
+        if (calculatedCoins > 100000000) {
+            this.set('gold', 10000);
+            this.set('silver', null);
+            this.set('copper', null);
 
-          return;
+            return;
         }
 
         this.set('coinString', calculatedCoins);
-      },
+      }
 
-      _coinsCombinedChanged: function() {
+      _coinsCombinedChanged() {
         var tmpGold = Math.floor(this.coinsCombined / 10000);
         var tmpSilver = Math.floor(this.coinsCombined / 100 % 100);
         var tmpCopper = Math.floor(this.coinsCombined % 100);
@@ -179,28 +183,34 @@ Generates and input field for Guild Wars 2 coins.
         this.set('copper', tmpCopper);
 
         this.set('coinString', this.coinsCombined);
-      },
+      }
 
-      _isSingleInputCheck: function(bool) {
+      _isSingleInputCheck(bool) {
 
-        if(this.coinString != null)
+        if (this.coinString != null) {
           this.set('coinString', 0);
-
-        if(this.gold != null)
+        }
+            
+        if (this.gold != null) {
           this.set('gold', null);
-
-        if(this.silver != null)
+        }
+            
+        if (this.silver != null) {
           this.set('silver', 0);
+        }
 
-        if(this.copper != null)
+        if (this.copper != null) {
           this.set('copper', 0);
+        }
 
-        if(bool) 
+        if (bool) {
           return true;
+        }
 
         return false; 
       }
+    }
 
-    });
+    window.customElements.define(GW2CoinInput.is, GW2CoinInput);
   </script>
 </dom-module>
