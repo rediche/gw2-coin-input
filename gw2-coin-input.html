@@ -108,6 +108,9 @@ Generates and input field for Guild Wars 2 coins.
         </paper-input>
       </template>
     </div>
+    <p>
+      String: [[ coinString ]]
+    </p>
     
   </template>
 
@@ -150,16 +153,21 @@ Generates and input field for Guild Wars 2 coins.
       _valueChanged() {
         var calculatedCoins = 0;
 
-        if (this.gold != 0) {
-          calculatedCoins += +this.gold * 10000;
+        if (this.gold !== undefined) {
+          console.log("Gold:", typeof parseInt(this.gold, 10));
+          calculatedCoins += parseInt(this.gold, 10) * 10000;
         }
 
-        if (this.silver != 0) {
-          calculatedCoins += +this.silver * 100;
+        // Check silver and copper for both undefined and null
+        // Undefined: On load, the fields are undefined
+        // Null: If more than 10000g is set, then silver and copper is set to null
+
+        if (this.silver !== undefined && this.silver !== null) {
+          calculatedCoins += parseInt(this.silver, 10) * 100;
         }
 
-        if (this.copper != 0) {
-          calculatedCoins += +this.copper;
+        if (this.copper !== undefined && this.copper !== null) {
+          calculatedCoins += parseInt(this.copper, 10);
         }
 
         if (calculatedCoins > 100000000) {
@@ -169,7 +177,7 @@ Generates and input field for Guild Wars 2 coins.
 
             return;
         }
-
+        
         this.set('coinString', calculatedCoins);
       }
 
