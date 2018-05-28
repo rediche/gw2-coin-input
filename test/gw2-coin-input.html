@@ -32,7 +32,20 @@
       test('instantiating the element works', function () {
         assert.equal(element.tagName, 'GW2-COIN-INPUT');
       });
+      
+      test('can get coin-string from values', function () {
+        assert.isNotOk(element.coinString);
+        element.gold = 12;
+        element.silver = 34;
+        element.copper = 56;
+        assert.equal(element.coinString, 123456);
+      });
 
+      test('can be a single-input', function () {
+        assert.isNotOk(element.isSingleInput);
+        element.isSingleInput = true;
+        assert.isOk(element.isSingleInput);
+      });
     });
   </script>
 </body>
