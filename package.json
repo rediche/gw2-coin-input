@@ -1,7 +1,7 @@
 {
   "description": "Generates an input field for Guild Wars 2 coins.",
   "name": "gw2-coin-input",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "gw2-coin-input.js",
   "license": "MIT",
   "resolutions": {
