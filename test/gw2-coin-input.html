@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <title>gw2-coin-input test</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
+  <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  <script type="module" src="../gw2-coin-input.js"></script>
+</head>
+
+<body>
+
+  <test-fixture id="basic">
+    <template>
+      <gw2-coin-input></gw2-coin-input>
+    </template>
+  </test-fixture>
+
+  <script type="module">
+    import '../gw2-coin-input.js';
+    suite('gw2-coin-input', function () {
+      let element;
+
+      setup(function () {
+        element = fixture('basic');
+      });
+
+      test('instantiating the element works', function () {
+        assert.equal(element.tagName, 'GW2-COIN-INPUT');
+      });
+
+    });
+  </script>
+</body>
+
+</html>
