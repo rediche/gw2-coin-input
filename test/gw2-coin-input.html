@@ -40,6 +40,24 @@
         assert.equal(element.coinString, 123456);
       });
 
+      test('can get coin-string from gold only', function () {
+        assert.isNotOk(element.coinString);
+        element.gold = 12;
+        assert.equal(element.coinString, 120000);
+      });
+
+      test('can get coin-string from silver only', function () {
+        assert.isNotOk(element.coinString);
+        element.silver = 34;
+        assert.equal(element.coinString, 3400);
+      });
+
+      test('can get coin-string from copper only', function () {
+        assert.isNotOk(element.coinString);
+        element.copper = 56;
+        assert.equal(element.coinString, 56);
+      });
+
       test('can be a single-input', function () {
         assert.isNotOk(element.isSingleInput);
         element.isSingleInput = true;
