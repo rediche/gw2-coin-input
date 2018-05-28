@@ -12,8 +12,7 @@
   "main": "gw2-coin-input.js",
   "dependencies": {
     "@polymer/polymer": "^3.0.0",
-    "@polymer/paper-input": "^3.0.0-pre.18",
-    "@polymer/iron-icon": "^3.0.0-pre.18"
+    "@polymer/paper-input": "^3.0.0-pre.18"
   },
   "devDependencies": {
     "@polymer/iron-component-page": "^3.0.0-pre.18",

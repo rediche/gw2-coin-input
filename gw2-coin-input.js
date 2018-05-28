@@ -1,35 +1,28 @@
+import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
+import "@polymer/paper-input/paper-input.js";
+
 /**
-`gw2-coin-input`
-Generates and input field for Guild Wars 2 coins.
+  `gw2-coin-input` generates an input field for Guild Wars 2 coins.
 
-@demo demo/index.html 
+  @element gw2-coin-input
+  @demo demo/index.html 
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '@polymer/polymer/polymer-legacy.js';
-
-import '@polymer/paper-input/paper-input.js';
-import '@polymer/iron-icon/iron-icon.js';
-import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 class GW2CoinInput extends PolymerElement {
   static get template() {
-    return Polymer.html`
+    return html`
     <style>
       :host {
         display: block;
       }
 
       .coin {
-          --iron-icon-height: 15px;
-          --iron-icon-width: 15px;
+          height: 15px;
+          width: 15px;
       }
 
       .coins {
-        --iron-icon-height: 24px;
-        --iron-icon-width: 24px;
+        height: 24px;
+        width: 24px;
       }
 
       .input-list {
@@ -50,63 +43,65 @@ class GW2CoinInput extends PolymerElement {
     <div class="input-list">
       <template is="dom-if" if="{{ !_isSingleInputCheck(isSingleInput) }}">
         <paper-input label="Gold" always-float-label="" type="tel" allowed-pattern="^\\d*\\.?\\d+\$" maxlength="5" placeholder="0" value="{{ gold }}">
-          
-          <iron-icon class="coin" src="[[importPath]]images/gold-coin.png" slot="suffix"></iron-icon>
+          <img alt="g" class="coin" src="[[importPath]]images/gold-coin.png" slot="suffix">
         </paper-input>
 
         <paper-input label="Silver" always-float-label="" type="tel" allowed-pattern="^\\d*\\.?\\d+\$" maxlength="2" placeholder="0" value="{{ silver }}">
-          
-          <iron-icon class="coin" src="[[importPath]]images/silver-coin.png" slot="suffix"></iron-icon>
+          <img alt="s" class="coin" src="[[importPath]]images/silver-coin.png" slot="suffix">
         </paper-input>
 
         <paper-input label="Copper" always-float-label="" type="tel" allowed-pattern="^\\d*\\.?\\d+\$" maxlength="2" placeholder="0" value="{{ copper }}">
-          
-          <iron-icon class="coin" src="[[importPath]]images/copper-coin.png" slot="suffix"></iron-icon>
+          <img alt="c" class="coin" src="[[importPath]]images/copper-coin.png" slot="suffix">
         </paper-input>
       </template>
 
       <template is="dom-if" if="{{ _isSingleInputCheck(isSingleInput) }}">
         <paper-input class="full-width" label="Coins" always-float-label="" type="tel" allowed-pattern="^\\d*\\.?\\d+\$" maxlength="9" placeholder="0" value="{{ coinsCombined }}">
-
-          <iron-icon class="coins" src="[[importPath]]images/coins.png" slot="suffix"></iron-icon>
+          <img alt="coins" class="coins" src="[[importPath]]images/coins.png" slot="suffix">
         </paper-input>
       </template>
     </div>
 `;
   }
 
-  static get is() { return 'gw2-coin-input'; }
+  static get is() {
+    return "gw2-coin-input";
+  }
+
+  static get importMeta() {
+    return import.meta;
+  }
 
   static get properties() {
     return {
       gold: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
+        type: Number,
+        notify: true,
+        observer: "_valueChanged"
       },
       silver: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
+        type: Number,
+        notify: true,
+        observer: "_valueChanged"
       },
       copper: {
-          type: Number,
-          notify: true,
-          observer: '_valueChanged'
+        type: Number,
+        notify: true,
+        observer: "_valueChanged"
       },
       coinsCombined: {
-          type: Number,
-          observer: '_coinsCombinedChanged'
+        type: Number,
+        observer: "_coinsCombinedChanged"
       },
       coinString: {
-          type: Number,
-          notify: true
+        type: Number,
+        notify: true
       },
       isSingleInput: {
-          type: Boolean,
-          value: false
+        type: Boolean,
+        value: false
       }
-    }
+    };
   }
 
   _valueChanged() {
@@ -129,51 +124,50 @@ class GW2CoinInput extends PolymerElement {
     }
 
     if (calculatedCoins > 100000000) {
-        this.set('gold', 10000);
-        this.set('silver', null);
-        this.set('copper', null);
+      this.set("gold", 10000);
+      this.set("silver", null);
+      this.set("copper", null);
 
-        return;
+      return;
     }
-    
-    this.set('coinString', calculatedCoins);
+
+    this.set("coinString", calculatedCoins);
   }
 
   _coinsCombinedChanged() {
     var tmpGold = Math.floor(this.coinsCombined / 10000);
-    var tmpSilver = Math.floor(this.coinsCombined / 100 % 100);
+    var tmpSilver = Math.floor((this.coinsCombined / 100) % 100);
     var tmpCopper = Math.floor(this.coinsCombined % 100);
 
-    this.set('gold', tmpGold);
-    this.set('silver', tmpSilver);
-    this.set('copper', tmpCopper);
+    this.set("gold", tmpGold);
+    this.set("silver", tmpSilver);
+    this.set("copper", tmpCopper);
 
-    this.set('coinString', this.coinsCombined);
+    this.set("coinString", this.coinsCombined);
   }
 
   _isSingleInputCheck(bool) {
-
     if (this.coinString != null) {
-      this.set('coinString', 0);
+      this.set("coinString", 0);
     }
-        
+
     if (this.gold != null) {
-      this.set('gold', null);
+      this.set("gold", null);
     }
-        
+
     if (this.silver != null) {
-      this.set('silver', 0);
+      this.set("silver", 0);
     }
 
     if (this.copper != null) {
-      this.set('copper', 0);
+      this.set("copper", 0);
     }
 
     if (bool) {
       return true;
     }
 
-    return false; 
+    return false;
   }
 }
 
