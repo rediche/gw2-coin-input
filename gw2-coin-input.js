@@ -76,18 +76,15 @@ class GW2CoinInput extends PolymerElement {
     return {
       gold: {
         type: Number,
-        notify: true,
-        observer: "_valueChanged"
+        notify: true
       },
       silver: {
         type: Number,
-        notify: true,
-        observer: "_valueChanged"
+        notify: true
       },
       copper: {
         type: Number,
-        notify: true,
-        observer: "_valueChanged"
+        notify: true
       },
       coinsCombined: {
         type: Number,
@@ -104,24 +101,18 @@ class GW2CoinInput extends PolymerElement {
     };
   }
 
-  _valueChanged() {
-    var calculatedCoins = 0;
+  static get observers() {
+    return ["_valuesChanged(gold, silver, copper)"];
+  }
 
-    if (this.gold !== undefined) {
-      calculatedCoins += parseInt(this.gold, 10) * 10000;
-    }
+  _valuesChanged(gold, silver, copper) {
+    if (!gold && !silver && !copper) return;
 
-    // Check silver and copper for both undefined and null
-    // Undefined: On load, the fields are undefined
-    // Null: If more than 10000g is set, then silver and copper is set to null
+    let calculatedCoins = 0;
 
-    if (this.silver !== undefined && this.silver !== null) {
-      calculatedCoins += parseInt(this.silver, 10) * 100;
-    }
-
-    if (this.copper !== undefined && this.copper !== null) {
-      calculatedCoins += parseInt(this.copper, 10);
-    }
+    if (gold) calculatedCoins += Number(gold) * 10000;
+    if (silver) calculatedCoins += Number(silver) * 100;
+    if (copper) calculatedCoins += Number(copper);
 
     if (calculatedCoins > 100000000) {
       this.set("gold", 10000);
