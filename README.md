@@ -6,10 +6,9 @@
 ```
 <custom-element-demo>
   <template>
-    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../paper-input/paper-input.html">
-    <link rel="import" href="../iron-icon/iron-icon.html">
-    <link rel="import" href="gw2-coin-input.html">
+    <script src="./node_modules/webcomponentsjs/webcomponents-lite.js"></script>
+    <script type="module" href="./node_modules/paper-input/paper-input.js"></script>
+    <script type="module" href="gw2-coin-input.js"></script>
     <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
@@ -17,40 +16,28 @@
 -->
 ```html
 <gw2-coin-input></gw2-coin-input>
-<gw2-coin-input gold="10" silver="20" copper="30"></gw2-coin-input>
 <gw2-coin-input is-single-input></gw2-coin-input>
 ```
 
 Generates an input field for Guild Wars 2 coins.
 
-## Install the Polymer-CLI
+## Install
+
+```
+npm i --save gw2-coin-input
+```
+
+## Development
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
 
-## Viewing Your Application
+### Viewing Your Application
 
 ```
 $ polymer serve
 ```
 
-## Building Your Application
-
-```
-$ polymer build
-```
-
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
-
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
-
-```
-$ polymer serve build/bundled
-```
-
-## Running Tests
+### Running Tests
 
 ```
 $ polymer test
